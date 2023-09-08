@@ -9,7 +9,32 @@
 Hier komt een korte introductie.
 
 \section{System description}
-Hier komt een korte beschrijving van het systeem (incl. de interpratie-argumentatie).
+Each locomobile has:
+\begin{itemize}
+    \item 3 motors
+    \item 3 oil pressure pumps
+    \item 3 position sensors
+\end{itemize}
+The output commands are:
+\begin{itemize}
+    \item start motor N inward/outward
+    \item start oil pump N
+
+    \item stopped moving
+    \item started fine-positioning
+    \item sensor error (all position sensors consistently report something different)
+    \item pressure pump error N
+    \item motor error N
+
+    \item open valves
+    \item pump water out
+\end{itemize}
+The input messages are:
+\begin{itemize}
+    \item close/open/stop locomobile (received twice)
+    \item position sensor N
+    \item motor N was repaired
+\end{itemize}
 
 \section{Global requirements}
 Beschrijving van de eisen in engels.
