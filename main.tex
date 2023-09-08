@@ -9,10 +9,29 @@
 Hier komt een korte introductie.
 
 \section{System description}
-Hier komt een korte beschrijving van het systeem (incl. de interpratie-argumentatie).
+The locomobile consists of the following components:
+\begin{itemize}
+    \item Two channels to receive commands
+    \item Three motors
+    \item Three oil pressure pumps
+    \item Three sensors
+\end{itemize}
+
+One of the two channels is redundant so that every command is received twice. Each of the three engines has its own oil pressure pump. The sensors measure the same thing, so 2 of them are also redundant. During `fijnpositioneren', only one motor is used to keep the door in place. The locomobile communicates with the central system called `BesW'
 
 \section{Global requirements}
-Beschrijving van de eisen in engels.
+The system must behave according to the following requirements:
+\begin {itemize}
+    \item If a command is received for the first time, it should be executed.
+    \item If a command is received twice, it should only be executed once. 
+    \item The three engines may not be started within three seconds of each other.
+    \item When two or more sensors concur, this is taken as the outcome of the sensor.
+    \item If all sensors indicate different outcomes, it is a measuring error.
+    \item During fijnpositioneren, if the door is off-position by at least 1 meter, the locomobile should use one motor to guide it back to original position.
+
+    \item If a motor or its power supply breaks down, it cannot be used until it has been manually inspected.
+    \item If all three motors or their supplies break down, it must be reported as quickly as possible.
+\end {itemize}
 
 \section{Interactions}
 Beschrijving van interacties.
