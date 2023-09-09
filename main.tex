@@ -22,11 +22,10 @@ The output commands are:
 
     \item stopped moving
     \item started fine-positioning
-    \item sensor error (all position sensors consistently report something different)
-    \item pressure pump error N
+    \item sensor error N
     \item motor error N
 
-    \item open valves
+    \item open/close valves
     \item pump water out
 \end{itemize}
 The input messages are:
@@ -37,7 +36,37 @@ The input messages are:
 \end{itemize}
 
 \section{Global requirements}
-Beschrijving van de eisen in engels.
+\begin{itemize}
+    \item When the 'open locomobile' command is received while the door is closed,
+    the system shall open the door.
+    \item When the door is opened, the system shall start fine-positioning and
+    report 'started fine-positioning'.
+    \item While the door is filled with water or the valves are open, the system 
+    shall not open the door.
+
+    \item When the 'stop locomobile' command is received while the door is moving,
+    the system shall stop moving the door within 10 seconds.
+
+    \item When the 'close locomobile' command is received while the door is open,
+    the system shall close the door.
+    \item When the door reaches the closed position after receiving the 
+    'close locomobile' command, the system shall open the valves, 
+    start fine-positioning, and report 'stopped moving' and 'started fine-positioning'.
+
+    \item After the system starts an oil pump or motor, the system shall not start
+    any other oil pump or motor within 3 seconds.
+    \item When position sensor N has reported a different position than the other two
+    position sensors for 3 seconds, the system shall report 'sensor error N'.
+    \item When the system reports 'sensor error N' while another sensor is broken, the
+    system shall stop all running motors and oil pumps.
+    \item While at least 2 sensors are broken, the system shall not start any motor or
+    oil pump.
+
+    \item When none of the position sensors reports a different value within 10 seconds 
+    after starting motor N, the system shall report 'motor error N'.
+    \item When the system reports 'motor error N', it shall not start motor N or oil pump
+    N again until it receives 'motor N was repaired'.
+\end{itemize}
 
 \section{Interactions}
 Beschrijving van interacties.
