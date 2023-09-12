@@ -12,7 +12,7 @@ Hier komt een korte introductie.
 Each locomobile has:
 \begin{itemize}
     \item 3 motors
-    \item 3 oil pressure pumps
+    \item 3 oil pressure pumps (1 per motor/engine)
     \item 3 position sensors
 \end{itemize}
 The output commands are:
@@ -36,12 +36,14 @@ The input messages are:
     \item position sensor N
     \item motor N was repaired
 \end{itemize}
-
-One of the two channels is redundant so that every command is received twice. Each of the three engines has its own oil pressure pump. The sensors measure the same thing, so 2 of them are also redundant. During `fijnpositioneren', only one motor is used to keep the door in place. The locomobile communicates with the central system called `BesW'
+The locomobiles communicate with the central system called `BesW'
 
 
 \section{Global requirements}
 \begin{itemize}
+    \item One of the two channels is redundant so that every command is received twice. 
+    \item The sensors measure the same thing, so 2 of them are also redundant. 
+
     \item When the 'open locomobile' command is received while the door is closed,
     the system shall open the door.
     \item When the door is opened, the system shall start fine-positioning and
@@ -57,6 +59,11 @@ One of the two channels is redundant so that every command is received twice. Ea
     \item When the door reaches the closed position after receiving the 
     'close locomobile' command, the system shall open the valves, 
     start fine-positioning, and report 'stopped moving' and 'started fine-positioning'.
+
+    \item The system shall use at most 1 motor while it is fine-positioning.
+    \item When the door is further than 1 meter away from its desired position
+    while fine-positioning, the system shall move the door back to the desired
+    position.
 
     \item After the system starts an oil pump or motor, the system shall not start
     any other oil pump or motor within 3 seconds.
