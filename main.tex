@@ -35,6 +35,9 @@ The input messages are:
     \item motor N was repaired
 \end{itemize}
 
+One of the two channels is redundant so that every command is received twice. Each of the three engines has its own oil pressure pump. The sensors measure the same thing, so 2 of them are also redundant. During `fijnpositioneren', only one motor is used to keep the door in place. The locomobile communicates with the central system called `BesW'
+
+
 \section{Global requirements}
 \begin{itemize}
     \item When the 'open locomobile' command is received while the door is closed,
