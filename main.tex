@@ -8,7 +8,10 @@
 \section{Introduction}
 Hier komt een korte introductie.
 
+% TODO Maak requirement lijst zonder actions
+
 \section{System description}
+% Een deel hiervan moet naar de introductie, neem patient support system als voorbeeld
 Each locomobile has:
 \begin{itemize}
     \item 3 motors
@@ -26,9 +29,6 @@ The output commands are:
     \item started fine-positioning
     \item sensor error N
     \item motor error N
-
-    \item open/close valves
-    \item pump water out
 \end{itemize}
 The input messages are:
 \begin{itemize}
@@ -41,45 +41,38 @@ The locomobiles communicate with the central system called `BesW'
 
 
 \section{Global requirements}
-\begin{itemize}
-    \item One of the two channels is redundant so that every command is received twice. 
-    \item The sensors measure the same thing, so 2 of them are also redundant. 
+\begin{enumerate}
+    \item The system shall use at most 1 motor while it is \textit{fine-positioning}.
+    \item When the door is further than 1 meter away from its desired position while fine-positioning, the system shall move the door back to the desired position.
 
-    \item When the 'open locomobile' command is received while the door is closed,
-    the system shall open the door.
-    \item When the door is opened, the system shall start fine-positioning and
-    report 'started fine-positioning'.
-    \item While the door is filled with water or the valves are open, the system 
-    shall not open the door.
+    \item When the {\lq}open locomobile{\rq} command is received while the door is closed and at least 1 motor is usable, the system shall start at least 1 motor outward.
+    \item When the {\lq}open locomobile{\rq} command is received while the door is closed and no motor is usable, the system shall report a {\lq}motor error{\rq} for all 3 motors.
 
-    \item When the 'stop locomobile' command is received while the door is moving,
-    the system shall stop moving the door within 10 seconds.
+    \item When the door is opened, the system shall start \textit{fine-positioning} and
+    report {\lq}started fine-positioning{\rq}.
 
-    \item When the 'close locomobile' command is received while the door is open,
-    the system shall close the door.
+    \item When the {\lq}stop locomobile{\rq} command is received while the door is moving, the system shall stop all motors and oil pumps.
+
+    \item When the {\lq}close locomobile{\rq} command is received while the door is open and at least 1 motor is usable, the system shall start at least 1 motor inward.
+    \item When the {\lq}close locomobile{\rq} command is received while the door is open and no motor is usable, the system shall report a {\lq}motor error{\rq} for all 3 motors.
+    
     \item When the door reaches the closed position after receiving the 
-    'close locomobile' command, the system shall open the valves, 
-    start fine-positioning, and report 'stopped moving' and 'started fine-positioning'.
-
-    \item The system shall use at most 1 motor while it is fine-positioning.
-    \item When the door is further than 1 meter away from its desired position
-    while fine-positioning, the system shall move the door back to the desired
-    position.
+    {\lq}close locomobile{\rq} command, the system shall start \textit{fine-positioning} and report {\lq}stopped moving{\rq} and {\lq}started fine-positioning{\rq}.
 
     \item After the system starts an oil pump or motor, the system shall not start
-    any other oil pump or motor within 3 seconds.
+    any other oil pump or motor within 3 seconds. % De oil pump en motor actions (en waarschijnlijk ook de sensors) zouden N als parameter moeten hebben
     \item When position sensor N has reported a different position than the other two
-    position sensors for 3 seconds, the system shall report 'sensor error N'.
-    \item When the system reports 'sensor error N' while another sensor is broken, the
+    position sensors for 3 seconds, the system shall report {\lq}sensor error N{\rq}.
+    \item When the system reports {\lq}sensor error N{\rq} while another sensor is broken, the
     system shall stop all running motors and oil pumps.
     \item While at least 2 sensors are broken, the system shall not start any motor or
     oil pump.
 
     \item When none of the position sensors reports a different value within 10 seconds 
-    after starting motor N, the system shall report 'motor error N'.
-    \item When the system reports 'motor error N', it shall not start motor N or oil pump
-    N again until it receives 'motor N was repaired'.
-\end{itemize}
+    after starting motor N, the system shall report {\lq}motor error N{\rq}.
+    \item When the system reports {\lq}motor error N{\rq}, it shall not start motor N or oil pump
+    N again until it receives {\lq}motor N was repaired{\rq}.
+\end{enumerate}
 
 \section{Interactions}
 Beschrijving van interacties.
