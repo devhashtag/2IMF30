@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{xcolor}
 
 \title{2IMF30 System Validation Assignment}
 
@@ -6,7 +7,7 @@
 \begin{document}
 
 \section{Introduction}
-Hier komt een korte introductie.
+The `Maeslantkering' is a system designed to protect the harbour of Rotterdam against storms in the North Sea. Our task is to re-design the software of one of its components, namely the locomobile. \textcolor{blue}{Some high-level description of the system}.
 
 \section{System description}
 Each locomobile has:
@@ -41,19 +42,22 @@ The locomobiles communicate with the central system called `BesW'
 
 
 \section{Global requirements}
-\begin{itemize}
-    \item One of the two channels is redundant so that every command is received twice. 
-    \item The sensors measure the same thing, so 2 of them are also redundant. 
+\begin{enumerate}
+    \item When a command is received once, it should be executed.
+    \item When a command is received twice, it should be executed only once.
+
+    \item The system shall use at most 1 motor while it is fine-positioning.
+    \item When the door is further than 1 meter away from its desired position
+    while fine-positioning, the system shall move the door back to the desired
+    position.
 
     \item When the 'open locomobile' command is received while the door is closed,
     the system shall open the door.
     \item When the door is opened, the system shall start fine-positioning and
     report 'started fine-positioning'.
-    \item While the door is filled with water or the valves are open, the system 
-    shall not open the door.
 
     \item When the 'stop locomobile' command is received while the door is moving,
-    the system shall stop moving the door within 10 seconds.
+    the system shall stop moving the door.
 
     \item When the 'close locomobile' command is received while the door is open,
     the system shall close the door.
@@ -61,17 +65,13 @@ The locomobiles communicate with the central system called `BesW'
     'close locomobile' command, the system shall open the valves, 
     start fine-positioning, and report 'stopped moving' and 'started fine-positioning'.
 
-    \item The system shall use at most 1 motor while it is fine-positioning.
-    \item When the door is further than 1 meter away from its desired position
-    while fine-positioning, the system shall move the door back to the desired
-    position.
 
     \item After the system starts an oil pump or motor, the system shall not start
     any other oil pump or motor within 3 seconds.
     \item When position sensor N has reported a different position than the other two
-    position sensors for 3 seconds, the system shall report 'sensor error N'.
+        position sensors for 3 seconds, the system shall report 'sensor error N'. \textcolor{blue}{Might change this to be non-parametric}
     \item When the system reports 'sensor error N' while another sensor is broken, the
-    system shall stop all running motors and oil pumps.
+    system shall stop all running motors and oil pumps. \textcolor{blue}{Might change this to be non-parametric}
     \item While at least 2 sensors are broken, the system shall not start any motor or
     oil pump.
 
@@ -79,10 +79,32 @@ The locomobiles communicate with the central system called `BesW'
     after starting motor N, the system shall report 'motor error N'.
     \item When the system reports 'motor error N', it shall not start motor N or oil pump
     N again until it receives 'motor N was repaired'.
-\end{itemize}
+\end{enumerate}
 
 \section{Interactions}
-Beschrijving van interacties.
+Below is a list of all interactions, along with a description of their meaning.
+
+\begin{itemize}
+    \item \texttt{open}:  Open the door.
+    \item \texttt{close}: Close the door.
+    \item \texttt{stop}:  Stop current action. This can mean one of two things:
+        \begin{enumerate}
+            \item Stop moving the door, even when it is not in a final position.
+            \item Stop fine-positioning.
+        \end{enumerate}
+
+    \item \texttt{finished}: The door is in position.
+    \item \texttt{startFinePos}: Indicates that the locomobile has started fine-positioning.
+    \item \texttt{errorSensor}:  Indicates that the sensors need human intervention, because their values will not concur.
+    \item \texttt{errorMotor}:  Indicates that all three motors are malfunctioning and need human intervention.
+\end{itemize}
+
+\section{Requirements with interactions}
+This is a reformulation of the requirements to include the interactions.
+
+\begin{enumerate}
+    \item 
+\end{enumerate}
 
 \section{Architecture}
 Architectuur van het systeem.
